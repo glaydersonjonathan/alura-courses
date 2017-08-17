@@ -29,11 +29,12 @@ public class Login extends HttpServlet {
 		Usuario usuario = new UsuarioDAO().buscaPorEmailESenha(email, senha);
 
 		if (usuario == null) {
-			writer.println("<html><body>Usuario ou senha invalida</body></html>");
+			writer.println("<html><body>Usuário ou senha inválida</body></html>");
 		} else {
 			Cookie cookie  = new Cookie("usuario.logado", email);
+			cookie.setMaxAge(10 * 60);
 			resp.addCookie(cookie);
-			writer.println("<html><body>Usuario logado: " + email + "</body></html>");
+			writer.println("<html><body>Usuário logado: " + email + "</body></html>");
 		}
 	}
 
