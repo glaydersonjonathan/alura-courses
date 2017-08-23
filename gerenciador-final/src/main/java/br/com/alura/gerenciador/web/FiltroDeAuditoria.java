@@ -10,7 +10,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import br.com.alura.gerenciador.Usuario;
 
@@ -22,22 +21,20 @@ public class FiltroDeAuditoria implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
+		String uri = req.getRequestURI();
+		String usuario = getUsuario(req);
 		
-		HttpSession session = req.getSession();
-		Usuario usuarioLogado = (Usuario) session.getAttribute("usuarioLogado");
-		
-		String usuario = "<deslogado>";
-
-		if (usuarioLogado != null)
-			usuario = usuarioLogado.getEmail();
-		
-		System.out.println("Usuário: " + usuario + " acessando a URI: " + req.getRequestURI());
-
+		System.out.println("Usuario " + usuario + " acessando a URI " + uri);
 		chain.doFilter(request, response);
+	}
+
+	private String getUsuario(HttpServletRequest req) {
+		Usuario usuario = (Usuario) req.getSession().getAttribute("usuarioLogado");
+		if(usuario==null) return "<deslogado>";
+		return usuario.getEmail();
 	}
 
 	@Override
