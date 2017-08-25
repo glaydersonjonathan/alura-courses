@@ -39,8 +39,8 @@
 			<tr id="produto ${p.id}">
 				<td>${st.count}</td>
 				<td>${p.nome.toUpperCase()}</td>
-				<fmt:setLocale value="pt_BR" />
-				<td><fmt:formatNumber type="currency" value="${p.preco}" /></td>
+				<fmt:setLocale value="pt-BR" scope="request" />
+				<td><fmt:formatNumber value="${p.preco}" minFractionDigits="2" type="currency" /></td>
 				<td>${p.descricao}</td>
 				<td><fmt:formatDate pattern="EEEE, dd 'de' MMMM 'de' yyyy"
 						value="${p.dataInicioVenda.time}" /></td>
