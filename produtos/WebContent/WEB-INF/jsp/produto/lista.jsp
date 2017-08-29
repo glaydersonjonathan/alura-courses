@@ -20,6 +20,9 @@
 	</script>
 
 	<h1>Produtos</h1>
+	<c:out value="language code 1: ${pageContext.response.locale}"></c:out>
+	<c:out value="language code 2: ${pageContext.request.locale.language}"></c:out>
+	<c:out value="language code 3: ${header['accept-language']}"></c:out>
 	<h2>
 		<fmt:message key="mensagem.bemvindo" />
 	</h2>
@@ -34,12 +37,12 @@
 			<td>Usado?</td>
 			<td width="20%">Remover?</td>
 		</tr>
-
+		<c:set var="originalLocale" value="${pageContext.request.locale.language}" />
 		<c:forEach var="p" items="${produtoList}" varStatus="st">
 			<tr id="produto ${p.id}">
 				<td>${st.count}</td>
 				<td>${p.nome.toUpperCase()}</td>
-				<fmt:setLocale value="pt-BR" scope="request" />
+				<fmt:setLocale value="pt-BR"/>
 				<td><fmt:formatNumber value="${p.preco}" minFractionDigits="2" type="currency" /></td>
 				<td>${p.descricao}</td>
 				<td><fmt:formatDate pattern="EEEE, dd 'de' MMMM 'de' yyyy"
@@ -56,11 +59,14 @@
 			</tr>
 
 		</c:forEach>
+		<fmt:setLocale value="${originalLocale}"/>
 	</table>
 	<c:url value="/produto/formulario" var="linkProduto" />
 	<a href="${linkProduto}"><fmt:message key="mensagem.novoProduto" /></a>
 
 	<c:set var="nome" value="João da Silva" />
 	<c:out value="${nome}" />
+	
+	<c:import url="../_comum/rodape.jsp" />
 </body>
 </html>
